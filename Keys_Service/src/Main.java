@@ -13,7 +13,7 @@ public class Main {
 		Session session	= HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 
-		Adm adm = new Adm("Thayanne", "111.111.111-11", "thayanne123");
+		Adm adm = new Adm("Rayla", "rayla.medeiiros@gmail.com", 29, "rayla12345");
 		session.save(adm);
 		session.getTransaction().commit();
 

@@ -11,8 +11,9 @@ public class Adm {
 	@GeneratedValue
 	private int id;
 	
+	private int matricula;
 	private String nome;
-	private String cpf;
+	private String email;
 	private String senha;
 
 	public int getId() {
@@ -21,6 +22,14 @@ public class Adm {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public int getMatricula() {
+		return matricula;
+	}
+
+	public void settricula(int matricula) {
+		this.matricula = matricula;
 	}
 
 	public String getNome() {
@@ -31,12 +40,12 @@ public class Adm {
 		this.nome = nome;
 	}
 	
-	public String getCpf() {
-		return nome;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setCpf(String cpf) {
-		this.nome = nome;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getSenha() {
@@ -50,9 +59,10 @@ public class Adm {
 	public Adm() {
 	}
 
-	public Adm(String nome, String cpf, String senha) {
+	public Adm(String nome, String email, int matricula, String senha) {
 		this.nome = nome;
-		this.cpf = cpf;
+		this.email = email;
+		this.matricula = matricula;
 		this.senha = senha;
 	}
 }
