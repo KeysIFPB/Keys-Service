@@ -10,7 +10,7 @@ public class Adm {
 	@Id
 	@GeneratedValue
 	private int id;
-	
+
 	private int matricula;
 	private String nome;
 	private String email;
