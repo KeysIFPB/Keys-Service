@@ -6,3 +6,4 @@
 /hibernate.cfg.xml
 /persistence.xml
 /servico/
+/log4j2.xml

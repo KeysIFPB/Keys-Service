@@ -3,8 +3,10 @@ package entidade;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQuery(name = "Adm.getAll", query = "from Adm")
 public class Adm {
 
 	@Id

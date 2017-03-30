@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import entidade.Adm;
+import entidade.Aluno;
 import hibernate.HibernateUtil;
 
 public class Main {
@@ -13,8 +14,10 @@ public class Main {
 		Session session	= HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 
-		Adm adm = new Adm("Rayla", "rayla.medeiiros@gmail.com", 29, "rayla12345");
+		Adm adm = new Adm("Thayanne", "thayannevls@gmail.com", 37, "thaylinda123");
+		Aluno aluno = new Aluno("Rayla", "20141004029");
 		session.save(adm);
+		session.save(aluno);
 		session.getTransaction().commit();
 
 	}
