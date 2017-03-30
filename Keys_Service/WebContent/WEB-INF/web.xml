@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
   <display-name>Keys_Service</display-name>
   <welcome-file-list>
 		<welcome-file>index.html</welcome-file>
@@ -17,8 +20,7 @@
 			org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
 		<init-param>
 			<param-name>javax.ws.rs.Application</param-name>
-			<!-- Esse parâmetro poderá sofrer ajuste -->
-			<param-value>Keys_Service.servico.RestEasyApplication</param-value>
+			<param-value>.servico.RestEasyApplication</param-value>
 		</init-param>
 		<async-supported>true</async-supported>
 	</servlet>
@@ -31,7 +33,7 @@
 	<!-- Hibernate -->
 	<listener>
 		<listener-class>
-    		Keys_Service.hibernate.HibernateListener
+    		hibernate.HibernateListener
 		</listener-class>
 	</listener>
 </web-app>
