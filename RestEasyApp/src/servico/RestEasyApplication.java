@@ -7,8 +7,7 @@ import javax.ws.rs.core.Application;
 
 import org.jboss.resteasy.plugins.interceptors.CorsFilter;
 
-import controller.AdmController;
-import controller.UsuarioController;
+import controller.*;
 
 public class RestEasyApplication extends Application {
 
@@ -28,6 +27,7 @@ public class RestEasyApplication extends Application {
 		// Controllers disponíveis no serviço.
 		this.singletons.add(new UsuarioController());
 		this.singletons.add(new AdmController());	
+		this.singletons.add(new ChaveController());
 	}
 
 	public Set<Class<?>> getClasses() {

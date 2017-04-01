@@ -1,14 +1,8 @@
 package entidade;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import java.util.List;
+
+import javax.persistence.*;
 
 @Entity
 @NamedQuery(name = "Usuario.getAll", query = "from Usuario")
@@ -17,15 +11,16 @@ public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private String nome;
 	private String matricula;
 	private String horaReserva;
 	private String horaDevolucao;
-	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "fk_id_chave")	
-	private Chave chave;
+
+	@ManyToMany
+	@JoinTable(name = "reserva", joinColumns = { @JoinColumn(name = "fk_id_usuario") }, inverseJoinColumns = {
+			@JoinColumn(name = "fk_id_chave") })
+	private List<Chave> chaves;
 
 	public Integer getId() {
 		return id;
@@ -50,7 +45,7 @@ public class Usuario {
 	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
-	
+
 	public String getHoraReserva() {
 		return horaReserva;
 	}
@@ -66,12 +61,12 @@ public class Usuario {
 	public void setHoraDevolucao(String horaDevolucao) {
 		this.horaDevolucao = horaDevolucao;
 	}
-	
-	public Chave getChave() {
-		return chave;
+
+	public List<Chave> getChaves() {
+		return chaves;
 	}
 
-	public void setChave(Chave chave) {
-		this.chave = chave;
+	public void setChaves(List<Chave> chaves) {
+		this.chaves = chaves;
 	}
 }
