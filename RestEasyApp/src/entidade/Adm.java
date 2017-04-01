@@ -48,14 +48,5 @@ public class Adm {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
-	}	
-	
-	public Adm() {
-	}
-
-	public Adm(String nome, String email, String senha) {
-		this.nome = nome;
-		this.email = email;
-		this.senha = senha;
 	}
 }

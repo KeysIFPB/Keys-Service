@@ -38,7 +38,8 @@
 		
 		<!-- Entidades -->
 		<mapping class="entidade.Adm" />
-		<mapping class="entidade.Aluno" />									
+		<mapping class="entidade.Usuario" />
+		<mapping class="entidade.Chave" />									
 
 	</session-factory>
 </hibernate-configuration>

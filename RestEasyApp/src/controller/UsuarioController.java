@@ -15,16 +15,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import dao.AlunoDAO;
-import entidade.Aluno;
+import dao.UsuarioDAO;
+import entidade.Usuario;
 
-@Path("aluno")
-public class AlunoController {
+@Path("usuario")
+public class UsuarioController {
 
 	/**
-	 * Cadastra o aluno no sistema.
+	 * Cadastra o usuario no sistema.
 	 * 
-	 * @param aluno
+	 * @param usuario
 	 * @return Response
 	 */
 	@PermitAll
@@ -32,7 +32,7 @@ public class AlunoController {
 	@Path("/cadastrar")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response insert(Aluno aluno) {
+	public Response insert(Usuario usuario) {
 		
 		// Preparando a resposta. Provisoriamente o sistema preparará a resposta como requisição incorreta.
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
@@ -43,11 +43,11 @@ public class AlunoController {
 		
 		try {
 			
-			int idAluno = AlunoDAO.getInstance().insert(aluno);
+			int idUsuario = UsuarioDAO.getInstance().insert(usuario);
 			
-			aluno.setId(idAluno);
+			usuario.setId(idUsuario);
 			
-			builder.status(Response.Status.OK).entity(aluno);
+			builder.status(Response.Status.OK).entity(usuario);
 		
 		} catch (SQLException e) {
 			
@@ -59,7 +59,7 @@ public class AlunoController {
 	}
 	
 	/**
-	 * Retorna todos os alunos cadastrados.
+	 * Retorna todos os usuarios cadastrados.
 	 * 
 	 * @return Response
 	 */
@@ -67,16 +67,16 @@ public class AlunoController {
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
-	public List<Aluno> getAll() {
+	public List<Usuario> getAll() {
 		
 		// Retorno em formato de lista.
 		// Desse modo o response sempre conterá o código de resposta OK.
-		List<Aluno> alunos = new ArrayList<Aluno>();
+		List<Usuario> usuarios = new ArrayList<Usuario>();
 		
 		try {
 			
 			//TODO: Regra de negócio e manipulação de dados nesse ponto.
-			alunos = AlunoDAO.getInstance().getAll();
+			usuarios = UsuarioDAO.getInstance().getAll();
 		
 		} catch (SQLException e) {
 			
@@ -84,20 +84,20 @@ public class AlunoController {
 		}
 		
 		// Será retornado ao cliente um conjunto de alunos no formato de Json.
-		return alunos;
+		return usuarios;
 	}
 	
 	/**
-	 * Recupera o alunos cadastrado no sistema através do seu id.
+	 * Recupera o usuarios cadastrado no sistema através do seu id.
 	 * 
-	 * @param idAluno
+	 * @param idUsuario
 	 * @return Response
 	 */
 	@PermitAll
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
-	public Response getAlunoById(@PathParam("id") int idAluno) {
+	public Response getUsuarioById(@PathParam("id") int idUsuario) {
 		
 		// Preparando a resposta. Provisoriamente o sistema preparará a resposta como requisição incorreta.
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
@@ -106,13 +106,13 @@ public class AlunoController {
 		try {
 			
 			// Regra de negócio e manipulação de dados nesse ponto.
-			Aluno aluno = AlunoDAO.getInstance().getById(idAluno); 
+			Usuario usuario = UsuarioDAO.getInstance().getById(idUsuario); 
 			
-			if (aluno != null) {
+			if (usuario != null) {
 				
 				// As informaçãos associadas ao build para o response.
 				builder.status(Response.Status.OK);
-				builder.entity(aluno);
+				builder.entity(usuario);
 				
 			} else {
 				

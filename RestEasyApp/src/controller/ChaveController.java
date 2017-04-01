@@ -15,18 +15,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import dao.AdmDAO;
-import dao.UsuarioDAO;
-import entidade.Adm;
-import entidade.Usuario;
+import dao.ChaveDAO;
+import entidade.Chave;
 
-@Path("adm")
-public class AdmController {
+@Path("chave")
+public class ChaveController {
 
 	/**
-	 * Cadastra o adm no sistema.
+	 * Cadastra a chave no sistema.
 	 * 
-	 * @param adm
+	 * @param chave
 	 * @return Response
 	 */
 	@PermitAll
@@ -34,34 +32,36 @@ public class AdmController {
 	@Path("/cadastrar")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response insert(Adm adm) {
-		
-		// Preparando a resposta. Provisoriamente o sistema preparará a resposta como requisição incorreta.
+	public Response insert(Chave chave) {
+
+		// Preparando a resposta. Provisoriamente o sistema preparará a resposta
+		// como requisição incorreta.
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
-		
-		//TODO: Regra de negócio e manipulação de dados nesse ponto. As informaçãos devem ser associadas
+
+		// TODO: Regra de negócio e manipulação de dados nesse ponto. As
+		// informaçãos devem ser associadas
 		// nesse ponto ao biuld (response).
-		
+
 		try {
-			
-			int idAdm = AdmDAO.getInstance().insert(adm);
-			
-			adm.setId(idAdm);
-			
-			builder.status(Response.Status.OK).entity(adm);
-		
+
+			int idChave = ChaveDAO.getInstance().insert(chave);
+
+			chave.setId(idChave);
+
+			builder.status(Response.Status.OK).entity(chave);
+
 		} catch (SQLException e) {
-			
+
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		// Resposta.
 		return builder.build();
 	}
-	
+
 	/**
-	 * Retorna todos os adms cadastrados.
+	 * Retorna todas as chaves cadastradas.
 	 * 
 	 * @return Response
 	 */
@@ -69,55 +69,56 @@ public class AdmController {
 	@GET
 	@Path("/listar")
 	@Produces("application/json")
-	public List<Adm> getAll() {
-		
+	public List<Chave> getAll() {
+
 		// Retorno em formato de lista.
 		// Desse modo o response sempre conterá o código de resposta OK.
-		List<Adm> adms = new ArrayList<Adm>();
-		
+		List<Chave> chaves = new ArrayList<Chave>();
+
 		try {
-			
-			//TODO: Regra de negócio e manipulação de dados nesse ponto.
-			adms = AdmDAO.getInstance().getAll();
-		
+
+			// TODO: Regra de negócio e manipulação de dados nesse ponto.
+			chaves = ChaveDAO.getInstance().getAll();
+
 		} catch (SQLException e) {
-			
+
 			// TODO: Tratar a exceção.
 		}
-		
-		// Será retornado ao cliente um conjunto de adms no formato de Json.
-		return adms;
+
+		// Será retornado ao cliente um conjunto de chaves no formato de Json.
+		return chaves;
 	}
-	
+
 	/**
-	 * Recupera o adms cadastrado no sistema através do seu id.
+	 * Recupera a chave cadastrado no sistema através do seu id.
 	 * 
-	 * @param idAdm
+	 * @param idChave
 	 * @return Response
 	 */
 	@PermitAll
 	@GET
 	@Path("/id/{id}")
 	@Produces("application/json")
-	public Response getAdmById(@PathParam("id") int idAdm) {
-		
-		// Preparando a resposta. Provisoriamente o sistema preparará a resposta como requisição incorreta.
+	public Response getChaveById(@PathParam("id") int idChave) {
+
+		// Preparando a resposta. Provisoriamente o sistema preparará a resposta
+		// como requisição incorreta.
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
 		try {
-			
+
 			// Regra de negócio e manipulação de dados nesse ponto.
-			Adm adm = AdmDAO.getInstance().getById(idAdm); 
-			
-			if (adm != null) {
-				
+			Chave chave = ChaveDAO.getInstance().getById(idChave);
+
+			if (chave != null) {
+
 				// As informaçãos associadas ao build para o response.
 				builder.status(Response.Status.OK);
-				builder.entity(adm);
-				
+				builder.entity(chave);
+
 			} else {
-				
+
 				// Conteúdo não encontrado.
 				builder.status(Response.Status.NOT_FOUND);
 			}
@@ -130,4 +131,5 @@ public class AdmController {
 		// Resposta
 		return builder.build();
 	}
+
 }
