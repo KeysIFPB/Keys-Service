@@ -132,4 +132,42 @@ public class ChaveController {
 		return builder.build();
 	}
 
+	@PermitAll
+	@GET
+	@Path("/listar/sala/{sala}")
+	@Produces("application/json")
+	public Response getChaveBySala(@PathParam("sala") String sala) {
+
+		// Preparando a resposta. Provisoriamente o sistema preparará a resposta
+		// como requisição incorreta.
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		try {
+
+			// Consultar a chave pela sala. Consulta disponível na entidade
+			// ChaveDAO.
+			List<Chave> chaves = ChaveDAO.getInstance().getBySala(sala);
+
+			if (!chaves.isEmpty()) {
+
+				// As informaçãos associadas ao build para o response.
+				builder.status(Response.Status.OK);
+				builder.entity(chaves);
+
+			} else {
+
+				// Conteúdo não encontrado.
+				builder.status(Response.Status.NOT_FOUND);
+			}
+
+		} catch (SQLException exception) {
+
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR);
+		}
+
+		// Resposta
+		return builder.build();
+	}
+
 }
