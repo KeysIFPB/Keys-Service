@@ -28,6 +28,7 @@ public class RestEasyApplication extends Application {
 		this.singletons.add(new UsuarioController());
 		this.singletons.add(new AdmController());	
 		this.singletons.add(new ChaveController());
+		this.singletons.add(new ReservaController());
 	}
 
 	public Set<Class<?>> getClasses() {
