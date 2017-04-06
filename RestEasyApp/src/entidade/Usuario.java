@@ -1,9 +1,6 @@
 package entidade;
 
-import java.util.List;
-
 import javax.persistence.*;
-import entidade.Chave;
 
 @Entity
 @NamedQuery(name = "Usuario.getAll", query = "from Usuario")
@@ -15,13 +12,6 @@ public class Usuario {
 
 	private String nome;
 	private String matricula;
-	private String horaReserva;
-	private String horaDevolucao;
-
-	@ManyToMany
-	@JoinTable(name = "reserva", joinColumns = { @JoinColumn(name = "fk_id_usuario") }, inverseJoinColumns = {
-			@JoinColumn(name = "fk_id_chave") })
-	private List<Chave> chaves;
 
 
 	public Integer getId() {
@@ -48,27 +38,4 @@ public class Usuario {
 		this.matricula = matricula;
 	}
 	
-	public String getHoraReserva() {
-		return horaReserva;
-	}
-
-	public void setHoraReserva(String horaReserva) {
-		this.horaReserva = horaReserva;
-	}
-
-	public String getHoraDevolucao() {
-		return horaDevolucao;
-	}
-
-	public void setHoraDevolucao(String horaDevolucao) {
-		this.horaDevolucao = horaDevolucao;
-	}
-
-	public List<Chave> getChaves() {
-		return chaves;
-	}
-
-	public void setChaves(List<Chave> chaves) {
-		this.chaves = chaves;
-	}
 }
