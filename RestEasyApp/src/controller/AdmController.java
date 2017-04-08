@@ -16,9 +16,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import dao.AdmDAO;
-import dao.UsuarioDAO;
 import entidade.Adm;
-import entidade.Usuario;
 
 @Path("adm")
 public class AdmController {
@@ -128,6 +126,43 @@ public class AdmController {
 		}
 
 		// Resposta
+		return builder.build();
+	}
+	
+	@PermitAll
+	@POST
+	@Path("/login")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response login(Adm admRecebido) {
+
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		try {
+
+			Adm adm = AdmDAO.getInstance().getByEmail(admRecebido.getEmail());
+
+			if (adm.getSenha().equals(admRecebido.getSenha())) {
+
+				builder.status(Response.Status.OK).entity(adm);
+
+			} else {
+
+				if (adm.getNome() == null || adm.getNome().isEmpty()) {
+
+					builder.status(Response.Status.EXPECTATION_FAILED).entity(adm);
+
+				} else {
+
+					builder.status(Response.Status.BAD_REQUEST).entity(adm);
+				}
+			}
+
+		} catch (SQLException exception) {
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR);
+		}
+
 		return builder.build();
 	}
 }

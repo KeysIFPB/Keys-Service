@@ -33,31 +33,33 @@ public class UsuarioController {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response insert(Usuario usuario) {
-		
-		// Preparando a resposta. Provisoriamente o sistema preparará a resposta como requisição incorreta.
+
+		// Preparando a resposta. Provisoriamente o sistema preparará a resposta
+		// como requisição incorreta.
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
-		
-		//TODO: Regra de negócio e manipulação de dados nesse ponto. As informaçãos devem ser associadas
+
+		// TODO: Regra de negócio e manipulação de dados nesse ponto. As
+		// informaçãos devem ser associadas
 		// nesse ponto ao biuld (response).
-		
+
 		try {
-			
+
 			int idUsuario = UsuarioDAO.getInstance().insert(usuario);
-			
+
 			usuario.setId(idUsuario);
-			
+
 			builder.status(Response.Status.OK).entity(usuario);
-		
+
 		} catch (SQLException e) {
-			
+
 			builder.status(Response.Status.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		// Resposta.
 		return builder.build();
 	}
-	
+
 	/**
 	 * Retorna todos os usuarios cadastrados.
 	 * 
@@ -68,25 +70,25 @@ public class UsuarioController {
 	@Path("/listar")
 	@Produces("application/json")
 	public List<Usuario> getAll() {
-		
+
 		// Retorno em formato de lista.
 		// Desse modo o response sempre conterá o código de resposta OK.
 		List<Usuario> usuarios = new ArrayList<Usuario>();
-		
+
 		try {
-			
-			//TODO: Regra de negócio e manipulação de dados nesse ponto.
+
+			// TODO: Regra de negócio e manipulação de dados nesse ponto.
 			usuarios = UsuarioDAO.getInstance().getAll();
-		
+
 		} catch (SQLException e) {
-			
+
 			// TODO: Tratar a exceção.
 		}
-		
+
 		// Será retornado ao cliente um conjunto de alunos no formato de Json.
 		return usuarios;
 	}
-	
+
 	/**
 	 * Recupera o usuarios cadastrado no sistema através do seu id.
 	 * 
@@ -98,24 +100,25 @@ public class UsuarioController {
 	@Path("/id/{id}")
 	@Produces("application/json")
 	public Response getUsuarioById(@PathParam("id") int idUsuario) {
-		
-		// Preparando a resposta. Provisoriamente o sistema preparará a resposta como requisição incorreta.
+
+		// Preparando a resposta. Provisoriamente o sistema preparará a resposta
+		// como requisição incorreta.
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
 		try {
-			
+
 			// Regra de negócio e manipulação de dados nesse ponto.
-			Usuario usuario = UsuarioDAO.getInstance().getById(idUsuario); 
-			
+			Usuario usuario = UsuarioDAO.getInstance().getById(idUsuario);
+
 			if (usuario != null) {
-				
+
 				// As informaçãos associadas ao build para o response.
 				builder.status(Response.Status.OK);
 				builder.entity(usuario);
-				
+
 			} else {
-				
+
 				// Conteúdo não encontrado.
 				builder.status(Response.Status.NOT_FOUND);
 			}
@@ -126,6 +129,43 @@ public class UsuarioController {
 		}
 
 		// Resposta
+		return builder.build();
+	}
+
+	@PermitAll
+	@POST
+	@Path("/login")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response login(Usuario usuarioRecebido) {
+
+		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+		builder.expires(new Date());
+
+		try {
+
+			Usuario usuario = UsuarioDAO.getInstance().getByMatricula(usuarioRecebido.getMatricula());
+
+			if (usuario.getNome().equals(usuarioRecebido.getNome())) {
+
+				builder.status(Response.Status.OK).entity(usuario);
+
+			} else {
+
+				if (usuario.getNome() == null || usuario.getNome().isEmpty()) {
+
+					builder.status(Response.Status.EXPECTATION_FAILED).entity(usuario);
+
+				} else {
+
+					builder.status(Response.Status.BAD_REQUEST).entity(usuario);
+				}
+			}
+
+		} catch (SQLException exception) {
+			builder.status(Response.Status.INTERNAL_SERVER_ERROR);
+		}
+
 		return builder.build();
 	}
 }

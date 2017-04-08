@@ -3,7 +3,12 @@ package dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 import entidade.Usuario;
+import hibernate.HibernateUtil;
 
 public class UsuarioDAO extends GenericDao<Integer, Usuario>{
 
@@ -28,5 +33,34 @@ public class UsuarioDAO extends GenericDao<Integer, Usuario>{
 	public Usuario find(Usuario entity) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public Usuario getByMatricula(String matricula) throws SQLException{
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		Usuario usuario = null;
+
+		try {
+
+			String hql = "from Usuario as u" + " where u.matricula like :matricula";
+
+			Query query = session.createQuery(hql);
+			query.setParameter("matricula", "%" + matricula + "%");
+
+			usuario = (Usuario) query.uniqueResult();
+
+		} catch (HibernateException hibernateException) {
+
+			session.getTransaction().rollback();
+
+			throw new SQLException(hibernateException);
+
+		} finally {
+
+			session.close();
+		}
+
+		return usuario;
 	}
 }

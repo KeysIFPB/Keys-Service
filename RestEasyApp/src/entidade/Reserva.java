@@ -1,5 +1,8 @@
 package entidade;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 import javax.persistence.*;
 
 import entidade.Usuario;
@@ -12,8 +15,12 @@ public class Reserva {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	Date d = new Date();
+	
+	private String dataReserva = java.text.DateFormat.getDateInstance(DateFormat.MEDIUM).format(d);
 
-	private String horaReserva;
+	private String horaRetirada;
 	private String horaDevolucao;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -29,13 +36,21 @@ public class Reserva {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	
+	public String getDataReserva() {
+		return dataReserva;
+	}
+
+	public void setDataReserva(String dataReserva) {
+		this.dataReserva = dataReserva;
+	}
 
 	public String getHoraReserva() {
-		return horaReserva;
+		return horaRetirada;
 	}
 
 	public void setHoraReserva(String horaReserva) {
-		this.horaReserva = horaReserva;
+		this.horaRetirada = horaReserva;
 	}
 
 	public String getHoraDevolucao() {
