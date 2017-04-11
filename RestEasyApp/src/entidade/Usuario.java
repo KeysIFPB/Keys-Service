@@ -1,5 +1,4 @@
 package entidade;
-
 import javax.persistence.*;
 
 @Entity

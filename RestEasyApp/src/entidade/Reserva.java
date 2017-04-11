@@ -45,12 +45,12 @@ public class Reserva {
 		this.dataReserva = dataReserva;
 	}
 
-	public String getHoraReserva() {
+	public String getHoraRetirada() {
 		return horaRetirada;
 	}
 
-	public void setHoraReserva(String horaReserva) {
-		this.horaRetirada = horaReserva;
+	public void setHoraReserva(String horaRetirada) {
+		this.horaRetirada = horaRetirada;
 	}
 
 	public String getHoraDevolucao() {
