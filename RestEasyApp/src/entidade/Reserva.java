@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import entidade.Usuario;
 import entidade.Chave;
 
@@ -16,6 +18,7 @@ public class Reserva {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@JsonIgnore
 	Date d = new Date();
 	
 	private String dataReserva = java.text.DateFormat.getDateInstance(DateFormat.MEDIUM).format(d);

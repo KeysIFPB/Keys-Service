@@ -74,7 +74,7 @@ public class ReservaController {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response update(Reserva reserva) {
-
+		
 		// Preparando a resposta. Provisoriamente o sistema preparará a resposta
 		// como requisição incorreta.
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
@@ -84,16 +84,19 @@ public class ReservaController {
 		// informaçãos devem ser associadas
 		// nesse ponto ao biuld (response).
 		try {
-
-			Chave chave = reserva.getChave();
-
-			chave.setSituacao(true);
-
-			ChaveDAO.getInstance().update(chave);
-
-			ReservaDAO.getInstance().update(reserva);
-
-			builder.status(Response.Status.OK).entity(reserva);
+			
+			if (reserva != null) {
+				// Regra de negócio e manipulação de dados nesse ponto.
+				int cod_u = ReservaDAO.getInstance().findReservaById(reserva.getId()).getId();
+				reserva.setId(cod_u);
+				
+				Chave chave = reserva.getChave();
+				chave.setSituacao(true);
+				ChaveDAO.getInstance().update(chave);
+				
+				ReservaDAO.getInstance().updateByEntity(reserva);
+				builder.status(Response.Status.OK).entity(reserva);
+			}
 
 		} catch (SQLException e) {
 
