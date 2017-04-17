@@ -34,18 +34,22 @@ public class ChaveController {
 	@Produces("application/json")
 	public Response insert(Chave chave) {
 
-		// Preparando a resposta. Provisoriamente o sistema preparar· a resposta
-		// como requisiÁ„o incorreta.
+		// Preparando a resposta. Provisoriamente o sistema preparar√° a resposta
+		// como requisi√ß√£o incorreta.
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
-		// TODO: Regra de negÛcio e manipulaÁ„o de dados nesse ponto. As
-		// informaÁ„os devem ser associadas
+		// TODO: Regra de neg√≥cio e manipula√ß√£o de dados nesse ponto. As
+		// informa√ß√£os devem ser associadas
 		// nesse ponto ao biuld (response).
 
 		try {
 
 			int idChave = ChaveDAO.getInstance().insert(chave);
+			
+			chave.setSituacao(true);
+			
+			ChaveDAO.getInstance().update(chave);
 
 			chave.setId(idChave);
 
@@ -72,25 +76,25 @@ public class ChaveController {
 	public List<Chave> getAll() {
 
 		// Retorno em formato de lista.
-		// Desse modo o response sempre conter· o cÛdigo de resposta OK.
+		// Desse modo o response sempre conter√° o c√≥digo de resposta OK.
 		List<Chave> chaves = new ArrayList<Chave>();
 
 		try {
 
-			// TODO: Regra de negÛcio e manipulaÁ„o de dados nesse ponto.
+			// TODO: Regra de neg√≥cio e manipula√ß√£o de dados nesse ponto.
 			chaves = ChaveDAO.getInstance().getAll();
 
 		} catch (SQLException e) {
 
-			// TODO: Tratar a exceÁ„o.
+			// TODO: Tratar a exce√ß√£o.
 		}
 
-		// Ser· retornado ao cliente um conjunto de chaves no formato de Json.
+		// Ser√° retornado ao cliente um conjunto de chaves no formato de Json.
 		return chaves;
 	}
 
 	/**
-	 * Recupera a chave cadastrado no sistema atravÈs do seu id.
+	 * Recupera a chave cadastrado no sistema atrav√©s do seu id.
 	 * 
 	 * @param idChave
 	 * @return Response
@@ -101,25 +105,25 @@ public class ChaveController {
 	@Produces("application/json")
 	public Response getChaveById(@PathParam("id") int idChave) {
 
-		// Preparando a resposta. Provisoriamente o sistema preparar· a resposta
-		// como requisiÁ„o incorreta.
+		// Preparando a resposta. Provisoriamente o sistema preparar√° a resposta
+		// como requisi√ß√£o incorreta.
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
 		try {
 
-			// Regra de negÛcio e manipulaÁ„o de dados nesse ponto.
+			// Regra de neg√≥cio e manipula√ß√£o de dados nesse ponto.
 			Chave chave = ChaveDAO.getInstance().getById(idChave);
 
 			if (chave != null) {
 
-				// As informaÁ„os associadas ao build para o response.
+				// As informa√ß√£os associadas ao build para o response.
 				builder.status(Response.Status.OK);
 				builder.entity(chave);
 
 			} else {
 
-				// Conte˙do n„o encontrado.
+				// Conte√∫do n√£o encontrado.
 				builder.status(Response.Status.NOT_FOUND);
 			}
 
@@ -138,26 +142,26 @@ public class ChaveController {
 	@Produces("application/json")
 	public Response getChaveBySala(@PathParam("sala") String sala) {
 
-		// Preparando a resposta. Provisoriamente o sistema preparar· a resposta
-		// como requisiÁ„o incorreta.
+		// Preparando a resposta. Provisoriamente o sistema preparar√° a resposta
+		// como requisi√ß√£o incorreta.
 		ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
 		builder.expires(new Date());
 
 		try {
 
-			// Consultar a chave pela sala. Consulta disponÌvel na entidade
+			// Consultar a chave pela sala. Consulta dispon√≠vel na entidade
 			// ChaveDAO.
 			List<Chave> chaves = ChaveDAO.getInstance().getBySala(sala);
 
 			if (!chaves.isEmpty()) {
 
-				// As informaÁ„os associadas ao build para o response.
+				// As informa√ß√£os associadas ao build para o response.
 				builder.status(Response.Status.OK);
 				builder.entity(chaves);
 
 			} else {
 
-				// Conte˙do n„o encontrado.
+				// Conte√∫do n√£o encontrado.
 				builder.status(Response.Status.NOT_FOUND);
 			}
 
